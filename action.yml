@@ -1,10 +1,10 @@
-name: 'Task Completed Checker'
-description: 'An action that checks if all tasks are completed in the pull requests.'
-author: 'kentaro-m'
+name: 'Required Task Completed Checker'
+description: 'An action that checks if tasks marked as required have been completed'
+author: 'kentaro-m (forked by macqueenism)'
 runs:
   using: 'node12'
   main: 'dist/index.js'
-inputs: 
+inputs:
   repo-token:
     description: 'The GITHUB_TOKEN secret'
     required: true

@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {removeIgnoreTaskLitsText, createTaskListText} from './utils'
+import {getRequiredTasks, createTaskListText} from './utils'
 
 async function run(): Promise<void> {
   try {
@@ -8,7 +8,7 @@ async function run(): Promise<void> {
 
     const token = core.getInput('repo-token', {required: true})
     const githubApi = new github.GitHub(token)
-    const appName = 'Task Completed Checker'
+    const appName = 'Required Tasks Checker'
 
     if (!body) {
       core.info('no task list and skip the process.')
@@ -31,12 +31,12 @@ async function run(): Promise<void> {
       return
     }
 
-    const result = removeIgnoreTaskLitsText(body)
+    const result = getRequiredTasks(body)
 
-    core.debug('creates a list of tasks which removed ignored task: ')
+    core.debug('creates a list of required tasks: ')
     core.debug(result)
 
-    const isTaskCompleted = result.match(/(- \[[ ]\].+)/g) === null
+    const isTaskCompleted = result.match(/([-|*] \[[ ]\].+)/g) === null
 
     const text = createTaskListText(result)
 
@@ -54,8 +54,8 @@ async function run(): Promise<void> {
       output: {
         title: appName,
         summary: isTaskCompleted
-          ? 'All tasks are completed!'
-          : 'Some tasks are uncompleted!',
+          ? 'All required tasks are completed!'
+          : 'Some required tasks are uncompleted!',
         text
       },
       owner: github.context.repo.owner,
