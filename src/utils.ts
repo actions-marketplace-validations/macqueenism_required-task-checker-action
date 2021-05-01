@@ -1,17 +1,24 @@
-export function getRequiredTasks(text: string): string  {
-  const matches = text.match(/<!-- required-tasks -->[\s| ]*([-|*] \[[x| ]\] .+[\s| ]*)+<!-- \/required-tasks -->/g)
+export function getRequiredTasks(text: string): string {
+  const matches = text.match(
+    /<!-- required-tasks -->[\s| ]*([-|*] \[[x| ]\] .+[\s| ]*)+<!-- \/required-tasks -->/g
+  )
   if (!matches?.length) {
     return ''
   }
 
-  let tasks = '';
+  let tasks = ''
 
-  matches.forEach((match: string) => {
-    match.replace("<!-- required-tasks -->\n", '').replace("<!-- /required-tasks -->\n", '').replace("<!-- /required-tasks -->", '').split('\n').map(line => {
-      tasks += line.trim()
-      tasks += '\n'
-    })
-  })
+  for (const match of matches) {
+    match
+      .replace('<!-- required-tasks -->\n', '')
+      .replace('<!-- /required-tasks -->\n', '')
+      .replace('<!-- /required-tasks -->', '')
+      .split('\n')
+      .map(line => {
+        tasks += line.trim()
+        tasks += '\n'
+      })
+  }
   return tasks
 }
 

@@ -14,7 +14,7 @@ jobs:
   task-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: macqueenism/required-task-checker-action@v0.1.0
+      - uses: macqueenism/required-task-checker-action@v0.2.1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 ```
